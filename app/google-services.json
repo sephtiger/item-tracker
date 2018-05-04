@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "368210372882",
+    "firebase_url": "https://item-tracker-282c3.firebaseio.com",
+    "project_id": "item-tracker-282c3",
+    "storage_bucket": "item-tracker-282c3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:368210372882:android:73da14a176a57b20",
+        "android_client_info": {
+          "package_name": "seph.android.com.itemtracker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "368210372882-j56brvja6a34uflmacubr7mj9vu6d3ue.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHaaG6S0ahugWfew3zPJiwtF4uj5t-ZYs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
