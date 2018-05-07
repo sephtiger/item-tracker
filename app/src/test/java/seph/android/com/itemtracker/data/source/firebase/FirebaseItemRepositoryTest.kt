@@ -3,22 +3,23 @@ package seph.android.com.itemtracker.data.source.firebase
 import io.reactivex.schedulers.Schedulers
 import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
+import org.mockito.junit.MockitoJUnitRunner
 import seph.android.com.itemtracker.model.Item
-
-
 
 /**
  * Created by seph on 04/05/2018.
  */
 
+@RunWith(MockitoJUnitRunner::class)
 class FirebaseItemRepositoryTest {
 
     @Mock
     lateinit var firebaseDatabase : FirebaseDatabase
 
-    lateinit var testItem : Item
+    private var testItem = Item("My Name", "Some Description", "http://some.url","Some Location", 1)
 
     lateinit var firebaseItemRepository: FirebaseItemRepository
 
@@ -26,21 +27,17 @@ class FirebaseItemRepositoryTest {
     fun setUp() {
         MockitoAnnotations.initMocks(this)
         firebaseItemRepository = FirebaseItemRepository(firebaseDatabase)
-        testItem = Item("My Name", "Some Description", "http://some.url","Some Location", 1)
     }
 
     @Test
     fun addItem() {
 
-        with(testItem) {
+        var result = firebaseItemRepository.addItem(
+            testItem.name, testItem.description, testItem.image, testItem.location, testItem.cost)
+            .subscribeOn(Schedulers.single())
+            .test()
 
-            var testSubscriber = firebaseItemRepository.addItem(name, description, image, location, cost)
-                    .subscribeOn(Schedulers.single())
-                    .test()
-
-            testSubscriber
-                    .assertNoErrors()
-        }
+        result.assertNoErrors()
 
     }
 

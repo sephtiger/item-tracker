@@ -1,8 +1,7 @@
 package seph.android.com.itemtracker.data.interactor
 
+import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import seph.android.com.itemtracker.data.Result
 
 /**
@@ -15,12 +14,12 @@ abstract class UseCase<T> {
 
     fun execute() : Flowable<Result> {
 
-        return useCaseObservable()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnError({
-                    Result.Error(it.toString())
-                })
-                .map { Result.Success(it) }
+        return Flowable.create({ emitter -> useCaseObservable().subscribe(
+                { emitter.onNext(Result.Success(it)) },
+                { emitter.onNext(Result.Error(it.message!!)) },
+                { emitter.onComplete() }
+            )
+
+        }, BackpressureStrategy.BUFFER)
     }
 }

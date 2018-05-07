@@ -20,6 +20,7 @@ class FirebaseItemRepository(var firebaseDatabase: FirebaseDatabase) : ItemRepos
             firebaseDatabase.addItem(item)
                 .addOnSuccessListener { _ -> it.onNext(true) }
                 .addOnFailureListener { _ -> it.onError(Throwable("Error saving item")) }
+                .addOnCompleteListener { _ -> it.onComplete() }
 
         }, BackpressureStrategy.BUFFER)
 
