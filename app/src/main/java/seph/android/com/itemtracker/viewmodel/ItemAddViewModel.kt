@@ -11,7 +11,7 @@ import seph.android.com.itemtracker.viewmodel.base.BaseViewModel
  * Created by seph on 03/05/2018.
  */
 
-class AddItemViewModel(var addItem : AddItem) : BaseViewModel<Item>() {
+class ItemAddViewModel(var addItem : AddItem) : BaseViewModel<Item>() {
 
     fun addItem(name: String, description: String, image: Uri, location: String, cost: Int) {
 

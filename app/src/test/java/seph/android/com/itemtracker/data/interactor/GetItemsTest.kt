@@ -13,7 +13,7 @@ import seph.android.com.itemtracker.model.Item
 import java.util.*
 
 /**
- * Created by sephremotigue on 05/05/2018.
+ * Created by seph on 05/05/2018.
  */
 
 class GetItemsTest {

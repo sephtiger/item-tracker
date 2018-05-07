@@ -2,9 +2,11 @@ package seph.android.com.itemtracker.di.builder
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-import seph.android.com.itemtracker.di.module.AddItemModule
+import seph.android.com.itemtracker.di.module.ItemAddModule
+import seph.android.com.itemtracker.di.module.ItemDetailModule
 import seph.android.com.itemtracker.di.module.MainModule
-import seph.android.com.itemtracker.view.ui.AddItemActivity
+import seph.android.com.itemtracker.view.ui.ItemAddActivity
+import seph.android.com.itemtracker.view.ui.ItemDetailActivity
 import seph.android.com.itemtracker.view.ui.MainActivity
 
 /**
@@ -17,6 +19,9 @@ abstract class ActivityBuilder {
     @ContributesAndroidInjector(modules = arrayOf(MainModule::class))
     abstract fun bindMainActivity(): MainActivity
 
-    @ContributesAndroidInjector(modules = arrayOf(AddItemModule::class))
-    abstract fun bindAddItemActivity(): AddItemActivity
+    @ContributesAndroidInjector(modules = arrayOf(ItemDetailModule::class))
+    abstract fun bindItemDetailActivity(): ItemDetailActivity
+
+    @ContributesAndroidInjector(modules = arrayOf(ItemAddModule::class))
+    abstract fun bindItemAddActivity(): ItemAddActivity
 }

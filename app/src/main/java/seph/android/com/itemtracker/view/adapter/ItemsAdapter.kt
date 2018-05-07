@@ -14,22 +14,12 @@ import seph.android.com.itemtracker.model.Item
  * Created by seph on 04/05/2018.
  */
 
-class ItemsAdapter
-//        private val mListener: OnListFragmentInteractionListener?)
+class ItemsAdapter (var onItemClickListener : OnItemClickListener)
     : BaseRecyclerViewAdapter<Item, ItemsAdapter.ViewHolder>() {
 
     override val layoutResourceId = R.layout.item_item
 
-    private val mOnClickListener: View.OnClickListener
 
-    init {
-        mOnClickListener = View.OnClickListener { _ ->
-            //            val item = v.tag as DummyItem
-            // Notify the active callbacks interface (the activity, if the fragment is attached to
-            // one) that an item has been selected.
-//            mListener?.onListFragmentInteraction(item)
-        }
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(getView(parent))
@@ -41,12 +31,12 @@ class ItemsAdapter
         holder.descriptionView.text = item.description
         holder.costView.text =  "Costs " + item.cost
         Picasso.get()
-                .load(item.image)
-                .into(holder.imageView)
+            .load(item.image)
+            .into(holder.imageView)
 
         with(holder.view) {
             tag = item
-            setOnClickListener(mOnClickListener)
+            setOnClickListener { onItemClickListener.onItemClicked(item) }
         }
     }
 
@@ -61,5 +51,10 @@ class ItemsAdapter
         override fun toString(): String {
             return super.toString() + " '" + nameView.text + "'"
         }
+    }
+
+    interface OnItemClickListener {
+
+        fun onItemClicked(item : Item)
     }
 }

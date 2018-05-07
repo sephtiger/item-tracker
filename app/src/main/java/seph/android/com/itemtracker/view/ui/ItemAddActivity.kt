@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.activity_add_item.*
 import seph.android.com.itemtracker.R
 import seph.android.com.itemtracker.utils.ImagePicker
 import seph.android.com.itemtracker.view.ui.base.BaseActivity
-import seph.android.com.itemtracker.viewmodel.AddItemViewModel
+import seph.android.com.itemtracker.viewmodel.ItemAddViewModel
 import seph.android.com.itemtracker.viewmodel.base.BaseViewModel
 import javax.inject.Inject
 
@@ -21,12 +21,12 @@ import javax.inject.Inject
  * Created by seph on 03/05/2018.
  */
 
-class AddItemActivity : BaseActivity() {
+class ItemAddActivity : BaseActivity() {
 
     override val layoutResourceId = R.layout.activity_add_item
 
     @Inject
-    lateinit var viewModel: AddItemViewModel
+    lateinit var addViewModel: ItemAddViewModel
 
     var imagePicker = ImagePicker(this)
 
@@ -37,7 +37,7 @@ class AddItemActivity : BaseActivity() {
         imageHint.setOnClickListener { imagePicker.askSource("Select from") }
         saveButton.setOnClickListener { attemptSave() }
 
-        viewModel.state.observe(this, Observer {
+        addViewModel.state.observe(this, Observer {
             when(it) {
                 is BaseViewModel.State.Loading -> showProgress(true)
                 is BaseViewModel.State.Success -> finish()
@@ -105,7 +105,7 @@ class AddItemActivity : BaseActivity() {
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the item save attempt.
-            viewModel.addItem(nameStr, descriptionStr, imagePicker.imageUri!!, locationStr, costStr.toInt())
+            addViewModel.addItem(nameStr, descriptionStr, imagePicker.imageUri!!, locationStr, costStr.toInt())
         }
     }
 

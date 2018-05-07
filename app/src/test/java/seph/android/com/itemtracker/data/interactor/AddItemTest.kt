@@ -11,7 +11,7 @@ import seph.android.com.itemtracker.data.Result
 import seph.android.com.itemtracker.data.source.firebase.FirebaseItemRepository
 
 /**
- * Created by sephremotigue on 05/05/2018.
+ * Created by seph on 05/05/2018.
  */
 
 class AddItemTest {
