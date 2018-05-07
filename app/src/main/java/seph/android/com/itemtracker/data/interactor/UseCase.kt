@@ -14,7 +14,8 @@ abstract class UseCase<T> {
 
     fun execute() : Flowable<Result> {
 
-        return Flowable.create({ emitter -> useCaseObservable().subscribe(
+        return Flowable.create({ emitter -> useCaseObservable()
+                .subscribe(
                 { emitter.onNext(Result.Success(it)) },
                 { emitter.onNext(Result.Error(it.message!!)) },
                 { emitter.onComplete() }

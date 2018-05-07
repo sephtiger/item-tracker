@@ -1,14 +1,17 @@
 package seph.android.com.itemtracker.view.ui
 
 import android.arch.lifecycle.Observer
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
+import android.widget.Toast
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_item_detail.*
 import seph.android.com.itemtracker.R
 import seph.android.com.itemtracker.model.Item
 import seph.android.com.itemtracker.view.ui.base.BaseActivity
 import seph.android.com.itemtracker.viewmodel.ItemDetailViewModel
+import seph.android.com.itemtracker.viewmodel.base.BaseViewModel
 import javax.inject.Inject
 
 class ItemDetailActivity : BaseActivity() {
@@ -24,10 +27,30 @@ class ItemDetailActivity : BaseActivity() {
 
         setSupportActionBar(toolbar)
 
+        viewModel.liveData.value = getItemFromIntent()
+
+        editFab.setOnClickListener { _ ->
+            var intent = Intent(this, ItemAddActivity::class.java)
+            intent.putExtra("item", viewModel.liveData.value)
+            startActivity(intent)
+            finish()
+        }
+
         deleteFab.setOnClickListener { view ->
             Snackbar.make(view, "Delete Item?", Snackbar.LENGTH_LONG)
-                    .setAction("Delete", null).show()
+                    .setAction("Delete", { viewModel.delete() }).show()
         }
+
+        viewModel.state.observe(this, Observer {
+            when(it) {
+                is BaseViewModel.State.Success -> {
+                    Toast.makeText(this, "Succesfully deleted", Toast.LENGTH_SHORT).show()
+                    finish()
+                }
+                is BaseViewModel.State.Error ->
+                    Toast.makeText(this, "Error deleting item", Toast.LENGTH_SHORT).show()
+            }
+        })
 
         viewModel.liveData.observe(this, Observer {
 
@@ -41,8 +64,6 @@ class ItemDetailActivity : BaseActivity() {
             cost.text = "Costs " + it?.cost
 
         })
-
-        viewModel.liveData.value = getItemFromIntent()
     }
 
     private fun getItemFromIntent() : Item {

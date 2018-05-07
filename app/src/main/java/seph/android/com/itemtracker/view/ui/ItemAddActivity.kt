@@ -9,6 +9,7 @@ import android.view.View
 import android.arch.lifecycle.Observer
 import android.content.Intent
 import android.text.TextUtils
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_add_item.*
 import seph.android.com.itemtracker.R
 import seph.android.com.itemtracker.utils.ImagePicker
@@ -30,12 +31,43 @@ class ItemAddActivity : BaseActivity() {
 
     var imagePicker = ImagePicker(this)
 
+    var isEditting : Boolean = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         image.setOnClickListener { imagePicker.askSource("Select from") }
         imageHint.setOnClickListener { imagePicker.askSource("Select from") }
         saveButton.setOnClickListener { attemptSave() }
+
+
+        if(intent.hasExtra("item")) {
+            addViewModel.liveData.value = intent.getParcelableExtra("item")
+        }
+
+        addViewModel.liveData.observe(this, Observer {
+
+            title = "Edit Item"
+
+            isEditting = true
+
+            imageHint.visibility = View.GONE
+            imageHint.setOnClickListener(null)
+            image.setOnClickListener(null)
+            Picasso.get()
+                    .load(it?.image)
+                    .into(image)
+
+            name.text.clear()
+            description.text.clear()
+            location.text.clear()
+            cost.text.clear()
+
+            name.text.insert(0,it?.name)
+            description.text.insert(0,it?.description)
+            location.text.insert(0,it?.location)
+            cost.text.insert(0,it?.cost.toString())
+        })
 
         addViewModel.state.observe(this, Observer {
             when(it) {
@@ -79,7 +111,7 @@ class ItemAddActivity : BaseActivity() {
         }
 
         // Check for a valid image.
-        if (TextUtils.isEmpty(imageStr)) {
+        if (!isEditting && TextUtils.isEmpty(imageStr)) {
             imageHint.text = "This is required"
             cancel = true
         }
@@ -105,7 +137,24 @@ class ItemAddActivity : BaseActivity() {
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the item save attempt.
-            addViewModel.addItem(nameStr, descriptionStr, imagePicker.imageUri!!, locationStr, costStr.toInt())
+
+            if (isEditting) {
+                addViewModel.editItem(
+                        addViewModel.liveData.value!!.id,
+                        nameStr,
+                        descriptionStr,
+                        addViewModel.liveData.value!!.image,
+                        locationStr,
+                        costStr.toInt())
+            }
+            else {
+                addViewModel.addItem(
+                        nameStr,
+                        descriptionStr,
+                        imagePicker.imageUri!!,
+                        locationStr,
+                        costStr.toInt())
+            }
         }
     }
 

@@ -15,9 +15,9 @@ An android application that tracks all kinds if items. This is written in [Kotli
 
 ## TODOs
 - [x] Implement image upload
-- [ ] Implement edit item feature
-- [ ] Implement delete item feature
-- [ ] Improve UI/Style
+- [x] Implement edit item feature
+- [x] Implement delete item feature
+- [x] Improve UI/Style
 - [ ] Improve add item validation
 - [ ] Add more Unit Test Case
 - [ ] Add more Instrumented Test Case

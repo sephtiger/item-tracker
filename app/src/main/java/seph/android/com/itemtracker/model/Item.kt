@@ -10,8 +10,13 @@ import android.os.Parcelable
 data class Item(val name : String = "", val description: String = "", val image : String = "",
         val location : String = "", val cost : Int = 0) : Parcelable {
 
+    var id : String = ""
+
     constructor(parcel: Parcel) : this(parcel.readString(), parcel.readString(),
-        parcel.readString(),parcel.readString(),parcel.readInt())
+        parcel.readString(),parcel.readString(),parcel.readInt()) {
+
+        id = parcel.readString()
+    }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(name)
@@ -19,6 +24,7 @@ data class Item(val name : String = "", val description: String = "", val image 
         parcel.writeString(image)
         parcel.writeString(location)
         parcel.writeInt(cost)
+        parcel.writeString(id)
     }
 
     override fun describeContents(): Int {
@@ -33,5 +39,9 @@ data class Item(val name : String = "", val description: String = "", val image 
         override fun newArray(size: Int): Array<Item?> {
             return arrayOfNulls(size)
         }
+    }
+
+    override fun equals(other: Any?): Boolean {
+        return other is Item && id == other?.id
     }
 }
