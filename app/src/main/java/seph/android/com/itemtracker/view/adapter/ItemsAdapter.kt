@@ -38,7 +38,8 @@ class ItemsAdapter
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = mItems[position]
         holder.nameView.text = item.name
-
+        holder.descriptionView.text = item.description
+        holder.costView.text =  "Costs " + item.cost
         Picasso.get()
                 .load(item.image)
                 .into(holder.imageView)
@@ -53,7 +54,9 @@ class ItemsAdapter
 
     inner class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         val nameView : TextView = view.name
+        val descriptionView : TextView = view.description
         val imageView : ImageView = view.image
+        val costView : TextView = view.cost
 
         override fun toString(): String {
             return super.toString() + " '" + nameView.text + "'"
