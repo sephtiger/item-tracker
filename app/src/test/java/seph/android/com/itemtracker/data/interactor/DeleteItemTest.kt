@@ -34,6 +34,7 @@ class DeleteItemTest {
     fun setUp() {
         MockitoAnnotations.initMocks(this)
         deleteItem = DeleteItem(repository)
+        deleteItem.id = "some-id"
     }
 
     @Test
@@ -44,10 +45,9 @@ class DeleteItemTest {
 
         var result = deleteItem.execute().test()
 
-        // todo: fix observable schedulers
-//        result.assertValue { it is Result.Success<*> && it.data is Boolean && (it.data as Boolean)}
-//        result.assertNoErrors()
-//        result.assertComplete()
+        result.assertValue { it is Result.Success<*> && it.data is Boolean && (it.data as Boolean)}
+        result.assertNoErrors()
+        result.assertComplete()
     }
 
     @Test
@@ -58,8 +58,7 @@ class DeleteItemTest {
 
         var result = deleteItem.execute().test()
 
-        // todo: fix observable schedulers
-//        result.assertValue { it is Result.Error}
-//        result.assertNotComplete()
+        result.assertValue { it is Result.Error }
+        result.assertNotComplete()
     }
 }

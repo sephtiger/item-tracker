@@ -12,6 +12,12 @@ data class Item(val name : String = "", val description: String = "", val image 
 
     var id : String = ""
 
+    constructor(id: String, name : String, description: String, image : String, location : String,
+            cost : Int) : this(name, description, image, location, cost) {
+
+        this.id = id
+    }
+
     constructor(parcel: Parcel) : this(parcel.readString(), parcel.readString(),
         parcel.readString(),parcel.readString(),parcel.readInt()) {
 

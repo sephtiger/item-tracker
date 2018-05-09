@@ -12,15 +12,14 @@ abstract class UseCase<T> {
 
     abstract fun useCaseObservable() : Flowable<T>
 
-    fun execute() : Flowable<Result> {
+    fun execute() : Flowable<Result> = Flowable.create({ emitter ->
 
-        return Flowable.create({ emitter -> useCaseObservable()
+            useCaseObservable()
                 .subscribe(
-                { emitter.onNext(Result.Success(it)) },
-                { emitter.onNext(Result.Error(it.message!!)) },
-                { emitter.onComplete() }
-            )
+                    { emitter.onNext(Result.Success(it)) },
+                    { emitter.onNext(Result.Error(it.message!!)) },
+                    { emitter.onComplete() }
+                )
 
         }, BackpressureStrategy.BUFFER)
-    }
 }

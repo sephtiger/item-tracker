@@ -1,7 +1,6 @@
 package seph.android.com.itemtracker.data.interactor
 
 import io.reactivex.Flowable
-import io.reactivex.schedulers.TestScheduler
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mock
@@ -21,12 +20,9 @@ class AddItemTest {
 
     lateinit var addItem: AddItem
 
-    private lateinit var scheduler : TestScheduler
-
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        scheduler = TestScheduler()
         addItem = AddItem(repository)
         addItem.name = "valid name"
         addItem.description = "some valid description"
@@ -58,9 +54,8 @@ class AddItemTest {
                 .thenReturn(Flowable.error(Throwable("Error saving item")))
 
         var result = addItem.execute().test()
-        scheduler.triggerActions()
 
-        result.assertValue { it is Result.Error}
+        result.assertValue { it is Result.Error }
         result.assertNotComplete()
     }
 }

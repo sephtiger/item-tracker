@@ -14,7 +14,7 @@ import seph.android.com.itemtracker.viewmodel.MainViewModel
 class MainModule {
 
     @Provides
-    fun provideGetItems(firebaseItemRepository: FirebaseItemRepository) = GetItems(firebaseItemRepository)
+    fun provideGetItems(firebaseItemRepository : FirebaseItemRepository) = GetItems(firebaseItemRepository)
 
     @Provides
     fun provideViewModel(getItems : GetItems) = MainViewModel(getItems)
